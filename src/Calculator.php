@@ -43,7 +43,9 @@ class Calculator
         }
         $this->formula = $this->removeFormulaRedundantParenthesis(
             $this->fillToFullFormula(
-                $this->resolveStartWithMinus($formula)
+                $this->resolveStartWithMinus(
+                    strtolower($formula)
+                )
             )
         );
 
@@ -134,6 +136,15 @@ class Calculator
         }
         if (!is_null($replaces)) {
             $this->setReplaces($replaces);
+        }
+        if (is_numeric($this->formula)) {
+            return $this->formula;
+        }
+        if (preg_match('/^[a-z]+$/', $this->formula)) {
+            if (!isset($this->replaces[$this->formula])) {
+                throw new Exception("replace[$this->formula] not found");
+            }
+            return $this->replaces[$this->formula];
         }
 
         // calculate parenthesis and exponent

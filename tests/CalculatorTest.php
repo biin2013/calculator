@@ -50,6 +50,16 @@ class CalculatorTest extends TestCase
         $this->assertEquals(-200, $this->getCalculator('a(-4)', ['a' => 50])->calculate());
     }
 
+    public function test07()
+    {
+        $this->assertEquals(10, $this->getCalculator('a', ['a' => 10])->calculate());
+    }
+
+    public function test08()
+    {
+        $this->assertEquals(10, $this->getCalculator(10)->calculate());
+    }
+
     public function test1()
     {
         $this->assertEquals(59, $this->getCalculator('20*3+4-10/2')->calculate());
