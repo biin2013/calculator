@@ -6,9 +6,7 @@ calculate string formula
 
 ` composer require biin2013/calculator`
 
-## Demo
-
-### instance
+## instance
 
 ```php
 $calculator = new Calculator('(3+4*5-8)7-100/(20+30)');
@@ -23,7 +21,7 @@ $calculator = Calculator::make()
     ->setReplaces(['ab' => 100, 'y' => 3]);
 ```
 
-### calculator
+## calculator
 
 ```php
 $calculator->calculate();
@@ -34,7 +32,7 @@ Calculator::make()->calculate(
 );
 ```
 
-### example
+## example
 
 ```php
 Calculator::make(50 * (4))->calculate();
@@ -68,4 +66,4 @@ Calculator::make('', [
 );
 ```
 
-### See Test for more examples
+## See Test for more examples

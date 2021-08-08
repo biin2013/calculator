@@ -391,4 +391,12 @@ class Calculator
 
         $this->replaces[$replaceChar] = $result;
     }
+
+    /**
+     * @return array
+     */
+    public function getAvailableOperators(): array
+    {
+        return array_keys($this->priority);
+    }
 }
