@@ -38,7 +38,8 @@ class Calculator
     public function setFormula(string $formula): Calculator
     {
         if (empty($formula)) {
-            $this->formula = '';
+            // don't set '', when formula is 0
+            $this->formula = $formula;
             return $this;
         }
         $this->formula = $this->removeFormulaRedundantParenthesis(
@@ -137,6 +138,8 @@ class Calculator
         if (!is_null($replaces)) {
             $this->setReplaces($replaces);
         }
+        var_dump($this->formula);
+        var_dump(is_numeric($this->formula));
         if (is_numeric($this->formula)) {
             return $this->formula;
         }
