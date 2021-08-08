@@ -138,8 +138,6 @@ class Calculator
         if (!is_null($replaces)) {
             $this->setReplaces($replaces);
         }
-        var_dump($this->formula);
-        var_dump(is_numeric($this->formula));
         if (is_numeric($this->formula)) {
             return $this->formula;
         }
