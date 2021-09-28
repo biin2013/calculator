@@ -184,15 +184,8 @@ class Calculator
             preg_match_all('/\([^()]+\)/', $this->formula, $subs);
             $replaces = [];
             foreach ($subs[0] as $sub) {
-                $result = $this->newInstance(substr($sub, 1, -1))
-                    ->calculate();
-                if ($result < 0) {
-                    $replaceChar = $this->generateReplaceChar();
-                    $this->mergeReplaces($replaceChar, $result);
-                    $replaces[] = $replaceChar;
-                } else {
-                    $replaces[] = $result;
-                }
+                $result = $this->newInstance(substr($sub, 1, -1))->calculate();
+                $replaces[] = $this->resolveResultReplace($result);
             }
             $this->formula = str_replace($subs[0], $replaces, $this->formula);
         }
@@ -207,6 +200,22 @@ class Calculator
     }
 
     /**
+     * @param float $result
+     * @return float|string
+     * @throws Exception
+     */
+    private function resolveResultReplace(float $result)
+    {
+        if ($result < 0 || preg_match('/\dE[+-]\d+/', $result)) {
+            $replaceChar = $this->generateReplaceChar();
+            $this->mergeReplaces($replaceChar, $result);
+            return $replaceChar;
+        }
+
+        return $result;
+    }
+
+    /**
      * @throws Exception
      */
     private function calculateExponent()
@@ -215,13 +224,7 @@ class Calculator
         $replaces = [];
         foreach ($matches[1] as $i => $exp) {
             $result = $this->calculateResult($exp, '^', $matches[2][$i]);
-            if ($result < 0) {
-                $replaceChar = $this->generateReplaceChar();
-                $this->mergeReplaces($replaceChar, $result);
-                $replaces[$i] = $replaceChar;
-            } else {
-                $replaces[$i] = $result;
-            }
+            $replaces[$i] = $this->resolveResultReplace($result);
         }
         $this->formula = str_replace($matches[0], $replaces, $this->formula);
     }
@@ -385,8 +388,13 @@ class Calculator
      */
     private function generateReplaceChar(): string
     {
-        // cr: custom replace
-        return 'cr' . $this->replaceChar++;
+        while (true) {
+            // cr: custom replace
+            $char = 'cr' . $this->replaceChar++;
+            if (!array_key_exists($char, $this->replaces)) {
+                return $char;
+            }
+        }
     }
 
     /**
