@@ -220,7 +220,7 @@ class Calculator
      */
     private function calculateExponent()
     {
-        preg_match_all('/([0-9.|a-zA-Z]+)\^(\d)/', $this->formula, $matches);
+        preg_match_all('/([0-9.|a-zA-Z]+)\^([0-9.]+)/', $this->formula, $matches);
         $replaces = [];
         foreach ($matches[1] as $i => $exp) {
             $result = $this->calculateResult($exp, '^', $matches[2][$i]);

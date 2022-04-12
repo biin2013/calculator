@@ -220,4 +220,17 @@ class CalculatorTest extends TestCase
             );
         $this->assertEquals(2.0581418010587017E+31, $result);
     }
+
+    public function test20()
+    {
+        $result = $this->getCalculator()
+            ->calculate('3057.9x^0.6824', ['x' => 5]);
+        $this->assertEquals(9170.656146482957292598601, $result);
+    }
+
+    public function test21()
+    {
+        $result = $this->getCalculator()->calculate('3057.9^0.6824', ['x' => 5]);
+        $this->assertEquals(239.03023890339, $result);
+    }
 }
